@@ -51,7 +51,29 @@
 // let value5: string = value; // Error
 // let value6: object = value; // Error
 
+// void 类型
+// void 表示没有任何类型 当一个函数没有返回值时 TS 会认为它的返回值是 void 类型。
+// function hello(name: string): void {
 
+// }
+// never 类型
+// never 一般表示用户无法达到的类型 例如never 类型是那些总是会抛出异常或根本就不会有返回值的函数表达式或箭头函数表达式的返回值类型
+
+// function neverReach(): never {
+//     throw new Error('an error')
+// }
+
+// BigInt 大数类型
+
+// object, Object 和 {} 类型
+
+let objectCase:object;
+
+
+// 使用 BigInt 可以安全地存储和操作大整数
+// 我们在使用 BigInt 的时候 必须添加 ESNext 的编译辅助库 需要在 tsconfig.json 的 libs 字段加上ESNext
+// 要使用1n需要 "target": "ESNext"
+// number 和 BigInt 类型不一样 不兼容
 
 // 泛型
 // 泛型（Generics）是指在定义函数、接口或类的时候，不预先指定具体的类型，而在使用的时候再指定类型的一种特性
