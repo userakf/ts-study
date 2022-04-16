@@ -67,9 +67,111 @@
 
 // object, Object 和 {} 类型
 
-let objectCase:object;
+// let objectCase:object;
+// 大 Object 代表所有拥有 toString、hasOwnProperty 方法的类型 所以所有原始类型、非原始类型都可以赋给 Object(严格模式下 null 和 undefined 不可以)
+// let simpleCase: {};
+// {} 空对象类型和大 Object 一样 也是表示原始类型和非原始类型的集合
 
+// 类型推论
+// 指编程语言中能够自动推导出值的类型的能力 它是一些强静态类型语言中出现的特性 定义时未赋值就会推论成 any 类型 如果定义的时候就赋值就能利用到类型推论
+// let flag; //推断为any
+// let count = 123; //为number类型
+// let hello = "hello"; //为string类型
 
+// 联合类型
+// let name: string | number;
+
+// 类型断言
+// 尖括号 语法
+// let someValue: any = "this is a string";
+// let strLength: number = (<string>someValue).length;
+
+// // as 语法
+// let someValue: any = "this is a string";
+// let strLength: number = (someValue as string).length;
+
+// 非空断言 在上下文中当类型检查器无法断定类型时 一个新的后缀表达式操作符 ! 可以用于断言操作对象是非 null 和非 undefined 类型
+
+let flag: null | undefined | string;
+flag!.toString(); // ok
+flag.toString(); // error
+
+// 字面量类型
+let flag1: "hello" = "hello";
+let flag2: 1 = 1;
+let flag3: true = true;
+
+// 类型别名
+type flag = string | number;
+
+function hello(value: flag) { }
+
+// 交叉类型 交叉类型是将多个类型合并为一个类型。通过 & 运算符可以将现有的多种类型叠加到一起成为一种类型，它包含了所需的所有类型的特性
+// type Flag1 = { x: number };
+// type Flag2 = Flag1 & { y: string };
+
+// let flag3: Flag2 = {
+//   x: 1,
+//   y: "hello",
+//   henb,
+// };
+
+// 类型保护 类型保护就是一些表达式，他们在编译的时候就能通过类型信息确保某个作用域内变量的类型 其主要思想是尝试检测属性、方法或原型，以确定如何处理值
+
+function double(input: string | number | boolean) {
+    if (typeof input === "string") {
+        return input + input;
+    } else {
+        if (typeof input === "number") {
+            return input * 2;
+        } else {
+            return !input;
+        }
+    }
+}
+
+// in 关键字
+interface Bird {
+    fly: number;
+}
+
+interface Dog {
+    leg: number;
+}
+
+function getNumber(value: Bird | Dog) {
+    if ("fly" in value) {
+        return value.fly;
+    }
+    return value.leg;
+}
+// instanceof 类型保护
+class Animal {
+    name!: string;
+}
+class Bird extends Animal {
+    fly!: number;
+}
+function getName(animal: Animal) {
+    if (animal instanceof Bird) {
+        console.log(animal.fly);
+    } else {
+        console.log(animal.name);
+    }
+}
+// 自定义类型保护 通过 type is xxx这样的类型谓词来进行类型保护
+// 例如下面的例子 value is object就会认为如果函数返回 true 那么定义的 value 就是 object 类型
+function isObject(value: unknown): value is object {
+    return typeof value === "object" && value !== null;
+}
+
+function fn(x: string | object) {
+    if (isObject(x)) {
+        // ....
+    } else {
+        // .....
+    }
+}
 // 使用 BigInt 可以安全地存储和操作大整数
 // 我们在使用 BigInt 的时候 必须添加 ESNext 的编译辅助库 需要在 tsconfig.json 的 libs 字段加上ESNext
 // 要使用1n需要 "target": "ESNext"
